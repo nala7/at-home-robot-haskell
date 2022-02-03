@@ -25,7 +25,9 @@ source-repository head
 
 library
   exposed-modules:
+      Board
       Lib
+      Objects
   other-modules:
       Paths_home_robot_haskell
   hs-source-dirs:

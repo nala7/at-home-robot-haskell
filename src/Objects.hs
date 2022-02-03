@@ -1,48 +1,84 @@
-class Object  m where 
-    position :: m -> (Int, Int)
-    objType :: obj -> String
+module Objects where
+
+kidObject :: [Char]
+kidObject = "Kid"
+
+robotObject :: [Char]
+robotObject = "Robot"
+
+dirtObject :: [Char]
+dirtObject = "Dirt"
+
+cribObject :: [Char]
+cribObject = "Crib"
+
+obstacleObject :: [Char]
+obstacleObject = "Obstacle"
 
 
-newtype Kid = Kid {
-    kidPosition :: (Int, Int)
+class Object a where 
+    x :: a -> Int
+    y :: a -> Int
+    objType :: a -> String
+    objPiled :: a -> Bool
+
+
+data Kid = Kid {
+    xKid :: Int,
+    yKid :: Int
 }
 
+
 instance Object Kid where
-    position = kidPosition
-    objType = "Kid"
+    x a = xKid a
+    y a = yKid a
+    objType a = kidObject
+    objPiled a = False
 
 
-newtype Robot = Robot {
-    robPosition :: (Int, Int)
+data Robot = Robot{
+    xRobot :: Int,
+    yRobot :: Int
 }
 
 instance Object Robot where
-    position = robPosition
-    objType = "Robot"
+    x a = xRobot a
+    y a = yRobot a
+    objType a = robotObject
+    objPiled a = False
 
 
-newtype Dirt = Dirt{
-    dirtPosition :: (Int, Int)
+data Dirt = Dirt{
+    xDirt :: Int,
+    yDirt :: Int
 }
 
 instance Object Dirt where
-    position = dirtPosition
-    objType = "Dirt"
+    x a = xDirt a
+    y a = yDirt a
+    objType a = dirtObject
+    objPiled a = False
 
 
-newtype Crib = Crib {
-    cribPosition :: (Int, Int)
+data Crib = Crib{
+    xCrib :: Int,
+    yCrib :: Int
 }
 
 instance Object Crib where 
-    position = cribPosition
-    objType = "Crib"
+    x a = xCrib a
+    y a = yCrib a
+    objType a = cribObject
+    objPiled a = False
 
 
-newtype Obstacle = Obstacle {
-    obsPosition :: (Int, Int)
+data Obstacle = Obstacle {
+    xObstacle :: Int,
+    yObstacle :: Int
 }
 
 instance Object Obstacle where
-    position = obsPosition
-    objType = "Obstacle"
+    x a = xObstacle a
+    y a = yObstacle a
+    objType a = obstacleObject
+    objPiled a = False

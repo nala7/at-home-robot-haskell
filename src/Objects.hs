@@ -1,5 +1,8 @@
 module Objects where
 
+emptyObject :: [Char]
+emptyObject = " - " 
+
 kidObject :: [Char]
 kidObject = " K "
 

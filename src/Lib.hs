@@ -1,16 +1,12 @@
 module Lib where
 
 import Board
+import Objects
+import Moves
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+run :: Board -> IO()
+run board = do
+    putStrLn (printBoard board)
 
--- start :: IO()
--- start = do
-    
-    -- putStrLn "Enter amount of columns"
-    -- cols <- getLine
-    -- putStrLn "Enter amount of rows"
-    -- rows <- getLine
-    -- putStrLn ("Created Board " ++ cols ++ "x" ++ rows)
-    
+    let newBoard = moveRobot (3, 3, robotObject, True) board
+    putStrLn (printBoard newBoard)

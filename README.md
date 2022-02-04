@@ -1,4 +1,4 @@
-# Proyecto de Simulaci ́on y Programación Declarativa
+# Proyecto de Simulación y Programación Declarativa
 
 > Nadia González Fernández C412
 

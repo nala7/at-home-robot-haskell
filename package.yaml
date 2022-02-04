@@ -24,6 +24,9 @@ dependencies:
 
 library:
   source-dirs: src
+  dependencies:
+    - random
+
 
 executables:
   home-robot-haskell-exe:
@@ -35,6 +38,8 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - home-robot-haskell
+    - random
+
 
 tests:
   home-robot-haskell-test:
@@ -46,3 +51,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - home-robot-haskell
+    - random
+

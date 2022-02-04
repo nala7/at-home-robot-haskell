@@ -1,84 +1,98 @@
 module Objects where
 
 kidObject :: [Char]
-kidObject = "Kid"
+kidObject = " K "
 
 robotObject :: [Char]
-robotObject = "Robot"
+robotObject = " R "
 
 dirtObject :: [Char]
-dirtObject = "Dirt"
+dirtObject = " D "
 
 cribObject :: [Char]
-cribObject = "Crib"
+cribObject = " C "
 
 obstacleObject :: [Char]
-obstacleObject = "Obstacle"
+obstacleObject = " O "
+
+robotKidObject :: [Char]
+robotKidObject = "RK "
+
+robotCribObject :: [Char]
+robotCribObject = "RC "
+
+robotKidCribObject :: [Char]
+robotKidCribObject = "RKC"
+
+kidCribObject :: [Char]
+kidCribObject = "KC "
 
 
-class Object a where 
-    x :: a -> Int
-    y :: a -> Int
-    objType :: a -> String
-    objPiled :: a -> Bool
+data Object = Object {
+    x :: Int,
+    y :: Int,
+    objType :: String,
+    objPiled :: Bool
+} deriving (Show)
 
 
-data Kid = Kid {
-    xKid :: Int,
-    yKid :: Int
-}
+
+-- data Kid = Kid {
+--     xKid :: Int,
+--     yKid :: Int
+-- }
 
 
-instance Object Kid where
-    x a = xKid a
-    y a = yKid a
-    objType a = kidObject
-    objPiled a = False
+-- instance Object Kid where
+--     x a = xKid a
+--     y a = yKid a
+--     objType a = kidObject
+--     objPiled a = False
 
 
-data Robot = Robot{
-    xRobot :: Int,
-    yRobot :: Int
-}
+-- data Robot = Robot{
+--     xRobot :: Int,
+--     yRobot :: Int
+-- }
 
-instance Object Robot where
-    x a = xRobot a
-    y a = yRobot a
-    objType a = robotObject
-    objPiled a = False
-
-
-data Dirt = Dirt{
-    xDirt :: Int,
-    yDirt :: Int
-}
-
-instance Object Dirt where
-    x a = xDirt a
-    y a = yDirt a
-    objType a = dirtObject
-    objPiled a = False
+-- instance Object Robot where
+--     x a = xRobot a
+--     y a = yRobot a
+--     objType a = robotObject
+--     objPiled a = False
 
 
-data Crib = Crib{
-    xCrib :: Int,
-    yCrib :: Int
-}
+-- data Dirt = Dirt{
+--     xDirt :: Int,
+--     yDirt :: Int
+-- }
 
-instance Object Crib where 
-    x a = xCrib a
-    y a = yCrib a
-    objType a = cribObject
-    objPiled a = False
+-- instance Object Dirt where
+--     x a = xDirt a
+--     y a = yDirt a
+--     objType a = dirtObject
+--     objPiled a = False
 
 
-data Obstacle = Obstacle {
-    xObstacle :: Int,
-    yObstacle :: Int
-}
+-- data Crib = Crib{
+--     xCrib :: Int,
+--     yCrib :: Int
+-- }
 
-instance Object Obstacle where
-    x a = xObstacle a
-    y a = yObstacle a
-    objType a = obstacleObject
-    objPiled a = False
+-- instance Object Crib where 
+--     x a = xCrib a
+--     y a = yCrib a
+--     objType a = cribObject
+--     objPiled a = False
+
+
+-- data Obstacle = Obstacle {
+--     xObstacle :: Int,
+--     yObstacle :: Int
+-- }
+
+-- instance Object Obstacle where
+--     x a = xObstacle a
+--     y a = yObstacle a
+--     objType a = obstacleObject
+--     objPiled a = False

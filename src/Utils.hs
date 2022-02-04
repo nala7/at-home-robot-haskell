@@ -4,10 +4,13 @@ import Objects
 import Board
 
 posIsDirty :: (Int, Int) -> Board -> Bool
-posIsDirty (x, y) board = dirtObject == objectType where
-    objectType = getPosType x y list where
-        list = boardList board
+posIsDirty (x, y) board = 
+    let 
+        objectType = matchPosNType x y dirtObject board
+    in
+    dirtObject == objectType
+        
 
 
-cleanDirt :: (Int, Int, String, Bool) -> Board
+cleanDirt :: (Int, Int, String, Bool) -> Board -> Board
 cleanDirt = removeObject

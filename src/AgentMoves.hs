@@ -1,9 +1,11 @@
-module Moves where
+module AgentMoves where
 
-import Board 
+
 import System.IO.Unsafe                                    
 import System.Random 
-
+import Board 
+import Objects
+import Utils
 
 randomNum :: Int -> Int -> Int
 {-# NOINLINE randomNum #-}
@@ -12,29 +14,22 @@ randomNum min max = unsafePerformIO (getStdRandom (randomR (min, max)))
 
 moveRobot :: (Int, Int, String, Bool) -> Board -> Board
 moveRobot (x, y, rob, piled) board
-    | posIsDirty (x, y) board = cleanDirt (x, y, dirtObject, False)
-    | piled = newBoard1 
-    | otherwise = newBoard2 where 
-        removedObjBoard = removeObject (x, y, rob, piled) board 
+    | posIsDirty (x, y) board = cleanDirt (x, y, dirtObject, False) board
+    | piled = moveRobPiled (x, y, rob, piled) board 
+    | otherwise = moveRobUnpiled (x, y, rob, piled) board
 
-        (newX1, newY1) = moveTwoStepsPos (x, y, rob, piled) removedObjBoard 
-        newBoard1 = addObject(newX1, newY1, rob, piled) removedObjBoard
-
-        newBoard2 = moveRobUnpiled (x, y, rob, piled) board
-
-
--- recibe la posicion actual del robot y la posicion a la q se quiere mover
 moveRobUnpiled :: (Int, Int, String, Bool) -> Board -> Board
 moveRobUnpiled (x, y, rob, piled) board
     | objInNewPos == emptyObject 
         = addObject (newX, newY, rob, piled) removedObjBoard
-    | kidInPos == kidObject = boardWitPiledKidRob
+    | kidInPos == kidObject && cribInPos /= cribObject = boardWitPiledKidRob
     | objInNewPos == obstacleObject = board
     | otherwise = newPosObjBoard
     where
         (newX, newY) = moveOneStepPos (x, y, rob, piled) board 
-        kidInPos = let list = boardList board in matchPosNType newX newY kidObject list
-        objInNewPos = let list = boardList board in getPosType newX newY list
+        kidInPos = matchPosNType newX newY kidObject board
+        cribInPos = matchPosNType newX newY cribObject board
+        objInNewPos = getPosType newX newY board
 
         removedObjBoard = removeObject (x, y, rob, piled) board 
         -- lista con el robot en la posición actualizada
@@ -46,7 +41,24 @@ moveRobUnpiled (x, y, rob, piled) board
         boardWitPiledKidRob = setObjectToPiled (newX, newY, rob, piled) pileKidBoard
 
 
-moveRobPiles
+moveRobPiled :: (Int, Int, String, Bool) -> Board -> Board
+moveRobPiled (x, y, rob, piled) board
+    | let currentPosInCrib = matchPosNType x y cribObject board in
+        currentPosInCrib == cribObject = leaveKidBoard
+    | nextMoveIsObstacle == obstacleObject || nextMoveIsRobot == nextMoveIsRobot = 
+        board
+    | otherwise = newPosObjBoard
+    where
+        unpiledKidBoard = setObjectToUnpiled (x, y, kidObject, piled) board
+        leaveKidBoard = setObjectToUnpiled (x, y, robotObject, piled) unpiledKidBoard
+
+        (newX, newY) = moveTwoStepsPos(x, y, rob, piled) board
+
+        nextMoveIsObstacle = matchPosNType newX newY obstacleObject board
+        nextMoveIsRobot = matchPosNType newX newY robotObject board
+        
+        removedObjBoard = removeObject (x, y, rob, piled) board
+        newPosObjBoard = addObject (newX, newY, rob, piled) removedObjBoard
 
 moveTwoStepsPos :: (Int, Int, String, Bool) -> Board -> (Int, Int)
 moveTwoStepsPos (x, y, objType, piled) board = (twoStepX, twoStepY) where

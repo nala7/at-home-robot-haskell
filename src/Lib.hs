@@ -2,11 +2,15 @@ module Lib where
 
 import Board
 import Objects
-import Moves
+import AgentMoves
 
-run :: Board -> IO()
-run board = do
+run :: Board -> Int-> IO()
+run board i = do
     putStrLn (printBoard board)
 
-    let newBoard = moveRobot (3, 3, robotObject, True) board
+    let newBoard = moveRobot (2, 1, robotObject, False) board
     putStrLn (printBoard newBoard)
+
+-- changeEnv :: Board ->()
+-- changeEnv board = 4
+

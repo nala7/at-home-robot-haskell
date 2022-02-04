@@ -1,22 +1,6 @@
-module Board 
-(
-    Board,
-    addObject,
-    removeObject,
-    getPosType,
-    printBoard
-)
- where
+module Board where
 
 import Objects
-
--- data ObjectType = Kid | Robot | Obstacle | Dirt | Crib
-
--- instance Enum ObjectType where
---     fromEnum = fromJust . flip lookup table
---     toEnum = fromJust . flip lookup (map swap table)
--- table = [(Kid, "Kid"), (Robot, "Robot"), (Obstacle, "Obstacle"), (Dirt, "Dirt"), (Crib, "Crib")]
-
 
 data Board = Board {
     boardSizeX :: Int,
@@ -52,19 +36,30 @@ _removeObject x (y:ys) | x == y    = _removeObject x ys
                        | otherwise = y : _removeObject x ys
 
 
+matchPosNType :: Int -> Int -> String-> Board -> String
+matchPosNType x y objType board = 
+    let
+        list = boardList board
+    in 
+        _matchPosNType x y objType list
+
+
 -- si no hay objType en la posición devuelve emptyObject
-matchPosNType :: Int -> Int -> String-> [(Int, Int, String, Bool)] -> Sting
-matchPosNType _ _ _ [] = emptyObject
-matchPosNType x y objType (head:tail) = 
+_matchPosNType :: Int -> Int -> String-> [(Int, Int, String, Bool)] -> String
+_matchPosNType _ _ _ [] = emptyObject
+_matchPosNType x y objType (head:tail) = 
     let (x1, y1, headType, piled) = head
-    in if x1 == x && y1 == y && objType == headType then headType else getPosType x y tail
+    in if x1 == x && y1 == y && objType == headType then headType else _matchPosNType x y objType tail
 
 
-getPosType :: Int -> Int -> [(Int, Int, String, Bool)] -> String
-getPosType x y [] = emptyObject
-getPosType x y (head:tail) = 
+getPosType :: Int -> Int -> Board -> String
+getPosType x y board = let list = boardList board in _getPosType x y list 
+
+_getPosType :: Int -> Int -> [(Int, Int, String, Bool)] -> String
+_getPosType x y [] = emptyObject
+_getPosType x y (head:tail) = 
     let (x1, y1, objType, piled) = head
-    in if x1 == x && y1 == y then objType else getPosType x y tail
+    in if x1 == x && y1 == y then objType else _getPosType x y tail
 
 printBoard :: Board -> String
 printBoard board = _printBoard x y board where
@@ -76,14 +71,19 @@ _printBoard 0 m _ = ""
 _printBoard n 0 board = "\n" ++ _printBoard (n-1) y board
     where
         y = boardSizeY board
-_printBoard n m board = "|" ++ getPosType x y boardObjects ++ "|" ++ _printBoard n (m-1) board
+_printBoard n m board = "|" ++ getPosType x y board ++ "|" ++ _printBoard n (m-1) board
     where
         x = boardSizeX board - n
         y = boardSizeY board - m
-        boardObjects = boardList board
 
 
 setObjectToPiled :: (Int, Int, String, Bool) -> Board ->Board
 setObjectToPiled (x, y, objType, piled) board = newBoard where
-    removeObjBoard = removeObject (x, y, objType, piled) board
+    removedObjBoard = removeObject (x, y, objType, piled) board
     newBoard = addObject (x, y, objType, True) removedObjBoard
+
+
+setObjectToUnpiled :: (Int, Int, String, Bool) -> Board ->Board
+setObjectToUnpiled (x, y, objType, piled) board = newBoard where
+    removedObjBoard = removeObject (x, y, objType, piled) board
+    newBoard = addObject (x, y, objType, False) removedObjBoard

@@ -25,9 +25,10 @@ source-repository head
 
 library
   exposed-modules:
+      AgentMoves
       Board
+      KidMoves
       Lib
-      Moves
       Objects
       Robot
       Utils

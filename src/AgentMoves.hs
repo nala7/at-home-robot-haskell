@@ -1,16 +1,8 @@
 module AgentMoves where
 
-
-import System.IO.Unsafe                                    
-import System.Random 
 import Board 
 import Objects
 import Utils
-
-randomNum :: Int -> Int -> Int
-{-# NOINLINE randomNum #-}
-randomNum min max = unsafePerformIO (getStdRandom (randomR (min, max)))
-
 
 moveRobot :: (Int, Int, String, Bool) -> Board -> Board
 moveRobot (x, y, rob, piled) board
@@ -60,18 +52,5 @@ moveRobPiled (x, y, rob, piled) board
         removedObjBoard = removeObject (x, y, rob, piled) board
         newPosObjBoard = addObject (newX, newY, rob, piled) removedObjBoard
 
-moveTwoStepsPos :: (Int, Int, String, Bool) -> Board -> (Int, Int)
-moveTwoStepsPos (x, y, objType, piled) board = (twoStepX, twoStepY) where
-    (oneStepX, oneStepY) = moveOneStepPos (x, y, objType, piled) board 
-    (twoStepX, twoStepY) = moveOneStepPos (oneStepX, oneStepY, objType, piled) board 
-        
-moveOneStepPos :: (Int, Int, String, Bool) -> Board -> (Int, Int)
-moveOneStepPos (x, y, objType, piled) board 
-    | rand1 == 0 && rand2 == 0 = (x - 1, y)
-    | rand1 == 0 && rand2 == 1 = (x + 1, y)
-    | rand1 == 1 && rand2 == 0 = (x, y - 1)
-    | rand1 == 1 && rand2 == 1 = (x, y + 1)
-    where
-            rand1 = randomNum 0 1
-            rand2 = randomNum 0 1
+
 

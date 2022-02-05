@@ -18,25 +18,6 @@ cribObject = " C "
 obstacleObject :: [Char]
 obstacleObject = " O "
 
-robotKidObject :: [Char]
-robotKidObject = "RK "
-
-robotCribObject :: [Char]
-robotCribObject = "RC "
-
-robotKidCribObject :: [Char]
-robotKidCribObject = "RKC"
-
-kidCribObject :: [Char]
-kidCribObject = "KC "
-
-
-data Object = Object {
-    x :: Int,
-    y :: Int,
-    objType :: String,
-    objPiled :: Bool
-} deriving (Show)
 
 
 

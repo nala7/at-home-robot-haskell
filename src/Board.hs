@@ -49,7 +49,9 @@ _matchPosNType :: Int -> Int -> String-> [(Int, Int, String, Bool)] -> String
 _matchPosNType _ _ _ [] = emptyObject
 _matchPosNType x y objType (head:tail) = 
     let (x1, y1, headType, piled) = head
-    in if x1 == x && y1 == y && objType == headType then headType else _matchPosNType x y objType tail
+    in if x1 == x && y1 == y && objType == headType 
+        then headType 
+        else _matchPosNType x y objType tail
 
 
 getPosType :: Int -> Int -> Board -> String
@@ -62,11 +64,26 @@ _getPosType x y (head:tail) =
     in if x1 == x && y1 == y then objType else _getPosType x y tail
 
 printBoard :: Board -> String
-printBoard board = _printBoard x y board where
-    x = boardSizeX board
-    y = boardSizeY board
+printBoard board = printObjectList list ""
+    where
+        list = boardList board
+-- printBoard board = _printBoard x y board where
+--     x = boardSizeX board
+--     y = boardSizeY board
 
-_printBoard  :: Int -> Int -> Board -> String
+printObjectList :: [(Int, Int, String, Bool)] -> [Char] -> [Char]
+printObjectList [] objString = objString
+printObjectList (head:tail) objString = tail chain 
+    where
+        obj = printObject head
+        chain = objString ++ obj
+
+printObject :: (Int, Int, String, Bool) -> [Char]
+printObject (x, y, objType, piled) = "" ++ show x ++ show y ++ objType ++ show piled ++ "\n"
+
+
+
+_printBoard  :: Int -> Int -> Board -> [Char]
 _printBoard 0 m _ = ""
 _printBoard n 0 board = "\n" ++ _printBoard (n-1) y board
     where

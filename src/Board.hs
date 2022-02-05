@@ -73,13 +73,13 @@ printBoard board = printObjectList list ""
 
 printObjectList :: [(Int, Int, String, Bool)] -> [Char] -> [Char]
 printObjectList [] objString = objString
-printObjectList (head:tail) objString = tail chain 
+printObjectList (head:tail) objString = printObjectList tail chain 
     where
         obj = printObject head
         chain = objString ++ obj
 
 printObject :: (Int, Int, String, Bool) -> [Char]
-printObject (x, y, objType, piled) = "" ++ show x ++ show y ++ objType ++ show piled ++ "\n"
+printObject (x, y, objType, piled) = "" ++ objType ++ ": ("++ show x ++ ", " ++ show y ++ ") piled: "++ show piled ++ "\n"
 
 
 
